@@ -10,6 +10,9 @@ processes = []
     NODE_VERSION = "14"
     PHP_VERSION = "8.1"
 
+[deploy]
+  release_command = "php bin/console doctrine:migrations:migrate"
+
 [env]
   APP_ENV = 'prod'
   APP_DEBUG = '0'
