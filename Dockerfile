@@ -11,7 +11,7 @@ FROM serversideup/php:${PHP_VERSION}-fpm-nginx as base
 # See https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG PHP_VERSION
 
-LABEL fly_launch_runtime="laravel"
+LABEL fly_launch_runtime="symfony"
 
 RUN apt-get update && apt-get install -y \
     git curl zip unzip rsync ca-certificates vim htop cron \
@@ -27,7 +27,6 @@ COPY . /var/www/html
 RUN composer install --optimize-autoloader --no-dev --no-scripts \
     && chown -R webuser:webgroup /var/www/html \
     && rm -rf /etc/cont-init.d/* \
-    && cp .fly/nginx-websockets.conf /etc/nginx/conf.d/websockets.conf \
     && cp .fly/nginx-default /etc/nginx/sites-available/default \
     && cp .fly/entrypoint.sh /entrypoint \
     && chmod +x /entrypoint
