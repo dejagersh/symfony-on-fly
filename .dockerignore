@@ -1,15 +1,30 @@
 # excludes from the docker image/build
 
-# 1. Ignore Laravel-specific files we don't need
-bootstrap/cache/*
-storage/framework/cache/*
-storage/framework/sessions/*
-storage/framework/views/*
-storage/logs/*
+# 1. Ignore Symfony-specific files we don't need
+**/*.md
+**/*.php~
+**/*.dist.php
+**/*.dist
+**/*.cache
+**/._*
+**/.dockerignore
+**/.git/
+**/.gitattributes
+**/.gitignore
+**/.gitmodules
+**/docker-compose.*.yaml
+**/docker-compose.*.yml
+**/docker-compose.yaml
+**/docker-compose.yml
+**/Dockerfile
+.github/
+docs/
+public/bundles/
+tests/
+var/
+vendor/
+.editorconfig
 *.env*
-.rr.yml
-rr
-vendor
 
 # 2. Ignore common files/directories we don't need
 .vscode
