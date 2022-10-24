@@ -29,6 +29,7 @@ RUN composer install --optimize-autoloader --no-dev --no-scripts \
     && rm -rf /etc/cont-init.d/* \
     && cp .fly/nginx-default /etc/nginx/sites-available/default \
     && cp .fly/entrypoint.sh /entrypoint \
+    && cp .fly/FlySymfonyRuntime.php /var/www/html/src/FlySymfonyRuntime.php \
     && chmod +x /entrypoint
 
 EXPOSE 8080
