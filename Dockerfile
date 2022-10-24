@@ -16,7 +16,7 @@ LABEL fly_launch_runtime="symfony"
 RUN apt-get update && apt-get install -y \
     git curl zip unzip rsync ca-certificates vim htop cron \
     php${PHP_VERSION}-pgsql php${PHP_VERSION}-bcmath \
-    php${PHP_VERSION}-swoole php${PHP_VERSION}-xml php${PHP_VERSION}-mbstring \
+    php${PHP_VERSION}-xml php${PHP_VERSION}-mbstring \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -31,6 +31,21 @@ RUN composer install --optimize-autoloader --no-dev --no-scripts \
     && cp .fly/entrypoint.sh /entrypoint \
     && cp .fly/FlySymfonyRuntime.php /var/www/html/src/FlySymfonyRuntime.php \
     && chmod +x /entrypoint
+
+
+FROM node:19 as build_frontend_assets
+
+RUN mkdir /app
+
+RUN mkdir -p  /app
+WORKDIR /app
+COPY .. .
+
+RUN npm ci --no-audit && npm run build
+
+FROM base
+
+COPY --from=build_frontend_assets /app/public/build /var/www/html/public/build
 
 EXPOSE 8080
 
