@@ -8,6 +8,7 @@ use App\Repository\ProductRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Transport\TransportInterface;
@@ -18,7 +19,7 @@ class HelloController extends AbstractController
     #[Route('/')]
     public function index(
         ProductRepository $productRepository,
-        LoggerInterface $logger, ManagerRegistry $doctrine, MessageBusInterface $messageBus)
+        LoggerInterface $logger, ManagerRegistry $doctrine, MessageBusInterface $messageBus, Request $request)
     {
         $logger->error('Hello, world');
 
@@ -41,6 +42,6 @@ class HelloController extends AbstractController
 
         $entityManager->flush();
 
-        return new Response('Hello, world!');
+        return new Response('Secure!: ' . ($request->isSecure() ? 'Yes' : 'No'));
     }
 }
