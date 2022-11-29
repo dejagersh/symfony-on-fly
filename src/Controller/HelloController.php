@@ -17,31 +17,34 @@ use Symfony\Component\Routing\Annotation\Route;
 class HelloController extends AbstractController
 {
     #[Route('/')]
-    public function index(
-        ProductRepository $productRepository,
-        LoggerInterface $logger, ManagerRegistry $doctrine, MessageBusInterface $messageBus, Request $request)
+    public function index(ProductRepository $productRepository, LoggerInterface $logger)
     {
-        $logger->error('Hello, world');
+        $products = $productRepository->findAll();
 
-        $product = $productRepository->find(1);
+        return $this->render('hello.twig', [
+            'products' => $products,
+        ]);
+    }
 
-        $product->setPrice(99999);
-
-
-        $messageBus->dispatch(new SendEmailMessage('Johannes'));
-
+    #[Route('/products', methods: ['POST'])]
+    public function saveProduct(Request $request, ManagerRegistry $doctrine)
+    {
         $entityManager = $doctrine->getManager();
 
-        $entityManager->persist($product);
-
         $product = new Product();
-        $product->setName('Hello');
-        $product->setPrice(50);
-
+        $product->setName($request->get('name'));
+        $product->setPrice((int)$request->get('price'));
         $entityManager->persist($product);
-
         $entityManager->flush();
 
-        return new Response('Secure!: ' . ($request->isSecure() ? 'Yes' : 'No'));
+        return $this->redirect('/');
+    }
+
+    #[Route('/dispatch-message', methods: ['POST'])]
+    public function dispatchMessage(MessageBusInterface $messageBus)
+    {
+        $messageBus->dispatch(new SendEmailMessage('Johannes'));
+
+        return $this->redirect('/');
     }
 }

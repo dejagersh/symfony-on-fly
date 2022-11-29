@@ -10,6 +10,10 @@ processes = []
     NODE_VERSION = "14"
     PHP_VERSION = "8.1"
 
+[processes]
+  app = ""
+  worker = "php bin/console messenger:consume async -vvv"
+
 [deploy]
   release_command = "php bin/console doctrine:migrations:migrate"
 
@@ -24,9 +28,9 @@ processes = []
   auto_rollback = true
 
 [[services]]
+  processes = ['app']
   http_checks = []
   internal_port = 8080
-  processes = ["app"]
   protocol = "tcp"
   script_checks = []
   [services.concurrency]

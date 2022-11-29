@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<body>
+<div style="border: 1px solid black">
+    <h3>Products</h3>
+
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }}: € {{ product.price }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+<div style="border: 1px solid black">
+    <h3>Add Product</h3>
+    <form action="/products" method="POST">
+        <label for="name">Name: </label>
+        <input id="name" type="text" name="name">
+
+        <label for="price">Price: </label>
+        <input id="price" type="number" name="price">
+
+        <button type="submit">
+            Save
+        </button>
+    </form>
+</div>
+
+<div style="border: 1px solid black">
+    <h3>Dispatch Message</h3>
+    <form action="/dispatch-message" method="POST">
+        <button type="submit">
+            Dispatch
+        </button>
+    </form>
+</div>
+</body>
+</html>

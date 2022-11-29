@@ -9,15 +9,15 @@ final class SendEmailMessage
      * to hold the data for this message class.
      */
 
-    private $name;
+    private $recipient;
 
-    public function __construct(string $name)
+    public function __construct(string $recipient)
     {
-        $this->name = $name;
+        $this->recipient = $recipient;
     }
 
-    public function getName(): string
+    public function getRecipient(): string
     {
-        return $this->name;
+        return $this->recipient;
     }
 }
